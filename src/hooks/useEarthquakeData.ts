@@ -1,4 +1,3 @@
-// useEarthquakeData.ts
 import { useQuery } from "@tanstack/react-query";
 
 interface EarthquakeData {
@@ -23,5 +22,8 @@ const fetchEarthquakeData = async (): Promise<EarthquakeData[]> => {
 };
 
 export const useEarthquakeData = () => {
-  return useQuery<EarthquakeData[], Error>(["earthquakeData"], fetchEarthquakeData);
+  return useQuery<EarthquakeData[], Error>({
+    queryKey: ["earthquakeData"], // Specify the query key
+    queryFn: fetchEarthquakeData, // Specify the fetch function
+  });
 };
