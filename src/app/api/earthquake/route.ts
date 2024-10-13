@@ -45,6 +45,7 @@ export async function GET() {
       body: JSON.stringify({
         token_id: process.env.TOKEN_ID,
         token: process.env.TOKEN,
+        collection_id: process.env.AUTH_COLLECTION_ID,
         data: {
           username: process.env.USERNAME,
           password: process.env.PASSWORD,
@@ -53,7 +54,7 @@ export async function GET() {
     });
 
     if (!authResponse.ok) {
-      throw new Error("Authentication failed");
+      throw new Error(process.env.AUTH_COLLECTION_ID);
     }
 
     const authData = await authResponse.json();

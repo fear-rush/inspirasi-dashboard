@@ -12,7 +12,7 @@ import L from "leaflet";
 import type { LatLngExpression } from "leaflet";
 import { useToast } from "@/components/ui/use-toast";
 import { useEarthquakeData } from "@/hooks/useEarthquakeData";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { SpinnerCircular } from "spinners-react";
 
 // Setup Leaflet marker icons
@@ -102,13 +102,22 @@ export default function EarthquakeMap() {
     maxDepth,
   } = state;
 
+  useEffect(() => {
+    if (error) {
+      console.log(process.env.TOKEN);
+      console.log(process.env.AUTH_COLLECTION_ID);
+      toast({
+        title: "Error",
+        description: "Failed to fetch earthquake data.",
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
+
   if (isLoading) {
     return (
       <div className="w-screen h-full flex justify-center items-center">
-        <SpinnerCircular
-          size={200}
-          color="#262626"
-        />
+        <SpinnerCircular size={200} color="#262626" />
       </div>
     );
   }
@@ -133,15 +142,6 @@ export default function EarthquakeMap() {
   };
 
   const filteredEarthquakes = filterEarthquakes(earthquakes || []);
-
-  // Error handling
-  if (error) {
-    toast({
-      title: "Error",
-      description: "Failed to fetch earthquake data.",
-      variant: "destructive",
-    });
-  }
 
   // Map center coordinates (Indonesia)
   const center: LatLngExpression = [-2.5489, 118.0149];
