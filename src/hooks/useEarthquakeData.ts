@@ -11,19 +11,25 @@ interface EarthquakeData {
 }
 
 const fetchEarthquakeData = async (): Promise<EarthquakeData[]> => {
-  const response = await fetch("/api/earthquake"); // Use the API route
+  const apiUrl = process.env.NEXT_PUBLIC_EARTHQUAKE_API_URL; // Use the environment variable
+
+  if (!apiUrl) {
+    throw new Error("API URL is not defined in .env.local");
+  }
+
+  const response = await fetch(apiUrl);
 
   if (!response.ok) {
     throw new Error("Failed to fetch earthquake data");
   }
 
   const data = await response.json();
-  return data; // No need to deduplicate here, as it's done on the server-side
+  return data;
 };
 
 export const useEarthquakeData = () => {
   return useQuery<EarthquakeData[], Error>({
-    queryKey: ["earthquakeData"], // Specify the query key
-    queryFn: fetchEarthquakeData, // Specify the fetch function
+    queryKey: ["earthquakeData"],
+    queryFn: fetchEarthquakeData,
   });
 };

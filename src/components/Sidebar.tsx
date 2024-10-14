@@ -1,36 +1,41 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
-import { Menu, X, Map, House, Sun } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, X, Map, House, Sun, Earth } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function Sidebar({ children }: { children: React.ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
-  const pathname = usePathname()
-  const router = useRouter()
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    setIsMounted(true);
+  }, []);
 
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   const menuItems = [
-    { href: '/', label: 'Home', icon: House },
-    { href: '/map', label: 'Earthquake Map', icon: Map },
-    { href: '/weather', label: 'Weather Station', icon: Sun },
-  ]
+    { href: "/", label: "Home", icon: House },
+    { href: "/earthquakemap", label: "Earthquake Map", icon: Map },
+    {
+      href: "/earthquakesigmap",
+      label: "Earthquake Significance Map",
+      icon: Earth,
+    },
+    { href: "/weather", label: "Weather Station", icon: Sun },
+  ];
 
   const handleMenuItemClick = (href: string) => {
-    router.push(href)
-    setSidebarOpen(false)
-  }
+    router.push(href);
+    setSidebarOpen(false);
+  };
 
   if (!isMounted) {
-    return null // or a loading placeholder
+    return null; // or a loading placeholder
   }
 
   return (
@@ -80,5 +85,5 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         </main>
       </div>
     </div>
-  )
+  );
 }

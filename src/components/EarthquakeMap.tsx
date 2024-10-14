@@ -1,5 +1,3 @@
-"use client";
-
 import {
   MapContainer,
   TileLayer,
@@ -87,7 +85,7 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-export default function EarthquakeMap() {
+const EarthquakeMap = () => {
   const { data: earthquakes, isLoading, error } = useEarthquakeData();
   const { toast } = useToast();
 
@@ -104,8 +102,6 @@ export default function EarthquakeMap() {
 
   useEffect(() => {
     if (error) {
-      console.log(process.env.TOKEN);
-      console.log(process.env.AUTH_COLLECTION_ID);
       toast({
         title: "Error",
         description: "Failed to fetch earthquake data.",
@@ -316,3 +312,5 @@ export default function EarthquakeMap() {
     </div>
   );
 }
+
+export default EarthquakeMap;
